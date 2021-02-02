@@ -10,46 +10,46 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR .
 
-# RUN apt-get update && \
-#     apt-get install -y --no-install-recommends \
-#         g++ \
-#         make \
-#         automake \
-#         autoconf \
-#         bzip2 \
-#         unzip \
-#         wget \
-#         sox \
-#         libtool \
-#         git \
-#         subversion \
-#         python2.7 \
-#         python3 \
-#         zlib1g-dev \
-#         gfortran \
-#         ca-certificates \
-#         patch \
-#         ffmpeg \
-#         dos2unix \
-#         jq \
-# 	    vim && \
-#     rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+     apt-get install -y --no-install-recommends \
+         g++ \
+         make \
+         automake \
+         autoconf \
+         bzip2 \
+         unzip \
+         wget \
+         sox \
+         libtool \
+         git \
+         subversion \
+         python2.7 \
+         python3 \
+         zlib1g-dev \
+         gfortran \
+         ca-certificates \
+         patch \
+         ffmpeg \
+         dos2unix \
+         jq \
+ 	    vim && \
+     rm -rf /var/lib/apt/lists/*
 
-# RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
-#     cd /opt/kaldi && \
-#     cd /opt/kaldi/tools && \
-#     ./extras/install_mkl.sh && \
-#     make -j $(nproc)
+ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
+     cd /opt/kaldi && \
+     cd /opt/kaldi/tools && \
+     ./extras/install_mkl.sh && \
+     make -j $(nproc)
 
-# RUN cd /opt/kaldi/src && \
-#     ./configure --shared --use-cuda && \
-#     sed -i -e 's/CUDA_LDLIBS += -lcusolver/CUDA_LDLIBS += -lcusolver -lcuda/g' /opt/kaldi/src/kaldi.mk && \
-#     make depend -j $(nproc) && \
-#     make -j $(nproc) && \
-#     find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
-#     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
-#     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
-#     rm -rf /opt/kaldi/.git
+ RUN cd /opt/kaldi/src && \
+     ./configure --shared --use-cuda && \
+     sed -i -e 's/CUDA_LDLIBS += -lcusolver/CUDA_LDLIBS += -lcusolver -lcuda/g' /opt/kaldi/src/kaldi.mk && \
+     make depend -j $(nproc) && \
+     make -j $(nproc) && \
+     find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
+     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
+     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
+     rm -rf /opt/kaldi/.git
 
 RUN apt update && apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
@@ -63,15 +63,15 @@ RUN apt-get install -y python3 python-dev python3-dev \
 RUN python3.7 -m pip install --upgrade pip
 RUN ln -sfn /usr/bin/python3.7 /usr/bin/python3
 
-# COPY src/workers/autosync_acoustic/requirements.txt /tmp/requirements.txt
-# RUN xargs -L 1 pip3 install < /tmp/requirements.txt && rm /tmp/requirements.txt
+ COPY src/workers/autosync_acoustic/requirements.txt /tmp/requirements.txt
+ RUN xargs -L 1 pip3 install < /tmp/requirements.txt && rm /tmp/requirements.txt
 
-# COPY lib/audio/acoustic_sync/src acoustic_sync_lib
-# COPY lib/deeplearning/dataset dataset
-# COPY lib/deeplearning/util_deeplearning util_deeplearning
-# COPY lib/deeplearning/queue_amq queue_amq
+ COPY lib/audio/acoustic_sync/src acoustic_sync_lib
+ COPY lib/deeplearning/dataset dataset
+ COPY lib/deeplearning/util_deeplearning util_deeplearning
+ COPY lib/deeplearning/queue_amq queue_amq
 
-# COPY src/workers/autosync_acoustic* .
+ COPY src/workers/autosync_acoustic* .
 
 # CMD ["python", "worker.py"]
 
