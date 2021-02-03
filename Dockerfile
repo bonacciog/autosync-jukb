@@ -63,15 +63,15 @@ RUN apt-get install -y python3 python-dev python3-dev \
 RUN python3.7 -m pip install --upgrade pip
 RUN ln -sfn /usr/bin/python3.7 /usr/bin/python3
 
- COPY src/workers/autosync_acoustic/requirements.txt /tmp/requirements.txt
- RUN xargs -L 1 pip3 install < /tmp/requirements.txt && rm /tmp/requirements.txt
+ #COPY src/workers/autosync_acoustic/requirements.txt /tmp/requirements.txt
+ #RUN xargs -L 1 pip3 install < /tmp/requirements.txt && rm /tmp/requirements.txt
 
- COPY lib/audio/acoustic_sync/src acoustic_sync_lib
- COPY lib/deeplearning/dataset dataset
- COPY lib/deeplearning/util_deeplearning util_deeplearning
- COPY lib/deeplearning/queue_amq queue_amq
+ #COPY lib/audio/acoustic_sync/src acoustic_sync_lib
+ #COPY lib/deeplearning/dataset dataset
+ #COPY lib/deeplearning/util_deeplearning util_deeplearning
+ #COPY lib/deeplearning/queue_amq queue_amq
 
- COPY src/workers/autosync_acoustic* .
+ #COPY src/workers/autosync_acoustic* .
 
 # CMD ["python", "worker.py"]
 
