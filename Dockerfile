@@ -30,6 +30,12 @@ RUN apt-get update && \
     vim && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install -y python-dev python3-dev \
+     build-essential libssl-dev libffi-dev \
+     libxml2-dev libxslt1-dev\
+     python-pip python3-pip
+
+RUN python3 -m pip install --upgrade pip
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi #EOL
