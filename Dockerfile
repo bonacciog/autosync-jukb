@@ -30,6 +30,7 @@ RUN apt-get update && \
     vim && \
     rm -rf /var/lib/apt/lists/*
 
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install python-pip python3-pip
 
 RUN python3 -m pip install --upgrade pip
