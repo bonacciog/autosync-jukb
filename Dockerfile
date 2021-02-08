@@ -32,7 +32,7 @@ RUN apt-get update && \
 
 RUN apt update && apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get install python-pip python3-pip
+RUN apt-get install python-pip python3-pip -y
 
 RUN python3 -m pip install --upgrade pip
 RUN ln -s /usr/bin/python3 /usr/bin/python
