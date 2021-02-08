@@ -35,7 +35,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install python-pip python3-pip -y
 
 RUN python3 -m pip install --upgrade pip
-RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi #EOL
 RUN    cd /opt/kaldi/tools && \
