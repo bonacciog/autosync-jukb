@@ -5,7 +5,7 @@
 FROM debian:10
 LABEL maintainer="rick@scriptix.io"
 
-WORKDIR /home/jovyan/
+
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -49,7 +49,7 @@ RUN    cd /opt/kaldi/tools && \
        find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
        rm -rf /opt/kaldi/.git
 
-
+WORKDIR /home/jovyan/
 # Kubeflow config
 # jupyter
 RUN pip install jupyterlab
