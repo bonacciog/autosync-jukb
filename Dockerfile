@@ -1,11 +1,8 @@
-# Musixmatch Intelligence SDK for Docker
-# @author Loreto Parisi loreto@musixmatch.com
-# @2016-2019 Musixmatch Spa
-
 FROM debian:10
-LABEL maintainer="rick@scriptix.io"
 
+ENV DEBIAN_FRONTEND=noninteractive
 
+WORKDIR app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -26,15 +23,13 @@ RUN apt-get update && \
         ca-certificates \
         gfortran \
         patch \
+        dos2unix \
         ffmpeg \
-    vim && \
+        jq \
+	    vim && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt update && apt install software-properties-common -y
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get install python-pip python3-pip -y
-
-RUN python3 -m pip install --upgrade pip
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi #EOL
 RUN    cd /opt/kaldi/tools && \
@@ -49,10 +44,18 @@ RUN    cd /opt/kaldi/tools && \
        find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
        rm -rf /opt/kaldi/.git
 
+RUN apt-get install -y python3 python-dev python3-dev \
+     build-essential libssl-dev libffi-dev \
+     libxml2-dev libxslt1-dev zlib1g-dev \
+     python-pip python3.7-dev python3-pip
+
+RUN python3.7 -m pip install --upgrade pip
+RUN ln -sfn /usr/bin/python3.7 /usr/bin/python3
+RUN ln -sfn /usr/bin/python3.7 /usr/bin/python
+
 WORKDIR /home/jovyan/
-# Kubeflow config
-# jupyter
-RUN pip install jupyterlab
+
+RUN python3 -m pip install jupyterlab
 
 ENV NB_PREFIX /
 
